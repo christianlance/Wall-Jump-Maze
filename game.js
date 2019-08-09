@@ -8,7 +8,7 @@ var gameOptions = {
     gameHeight: 480,
 
     // background color
-    bgColor: 0x444444,
+    bgColor: 0x123486,
 
     // player gravity
     playerGravity: 900,
