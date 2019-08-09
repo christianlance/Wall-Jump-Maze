@@ -8,7 +8,7 @@ var gameOptions = {
     gameHeight: 480,
 
     // background color
-    bgColor: 0x123486,
+    bgColor: 0x123456,
 
     // player gravity
     playerGravity: 900,
@@ -31,7 +31,18 @@ window.onload = function() {
         console.log(colorData);
     }; 
     colorRequest.send();
-}
+    if ("geolocation" in navigator) {
+        /* geolocation is available */
+      } else {
+        /* geolocation IS NOT available */
+      }
+      navigator.geolocation.getCurrentPosition(function(position) {
+        do_something(position.coords.latitude, position.coords.longitude);
+      });
+      var watchID = navigator.geolocation.watchPosition(function(position) {
+        do_something(position.coords.latitude, position.coords.longitude);
+      });
+      navigator.geolocation.clearWatch(watchID);}
 var preloadGame = function(game){
     
 }
@@ -174,4 +185,5 @@ playGame.prototype = {
         // Start the 'main' state, which restarts the game
         game.state.start('PlayGame');
     }
+    
 }
