@@ -24,8 +24,17 @@ window.onload = function() {
     game.state.add("PreloadGame", preloadGame);
     game.state.add("PlayGame", playGame);
     game.state.start("PreloadGame");
+    var colorRequest = new XMLHttpRequest();
+    colorRequest.open('GET', 'http://www.colr.org/json/color/random')
+    colorRequest.onload = function(){
+        var colorData = JSON.parse(colorRequest.responseText);
+        console.log(colorData);
+    }; 
+    colorRequest.send();
 }
-var preloadGame = function(game){}
+var preloadGame = function(game){
+    
+}
 preloadGame.prototype = {
     preload: function(){
         game.stage.backgroundColor = gameOptions.bgColor;
@@ -42,9 +51,12 @@ preloadGame.prototype = {
     create: function(){
         game.state.start("PlayGame");
     }
+    
 }
 var playGame = function(game){}
+
 playGame.prototype = {
+    
     create: function(){
 
         // starting ARCADE physics
@@ -114,6 +126,7 @@ playGame.prototype = {
             this.onWall = false;
         }
     },
+    
     update: function(){
 
         // handling collision between the hero and the tiles
@@ -154,5 +167,11 @@ playGame.prototype = {
             // adjusting hero speed according to the direction it's moving
             this.hero.body.velocity.x = gameOptions.playerSpeed * this.hero.scale.x;
         }, null, this);
+        if (this.hero.y > 416 && this.hero.x > 608)
+        this.restartGame();
+    },
+    restartGame: function() {
+        // Start the 'main' state, which restarts the game
+        game.state.start('PlayGame');
     }
 }
